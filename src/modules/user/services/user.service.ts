@@ -7,8 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm'
 import { Repository } from 'typeorm'
 
-import { User } from 'src/decorators/user/user.decorator'
-
 import { UserEntity } from '../entities/user.entity'
 
 import { CreateUserPayload } from '../models/create-user.payload'
@@ -18,6 +16,9 @@ import { encryptPassword } from 'src/utils/password'
 import * as DefaultValidationMessages from '../../../models/default-validation-messages'
 import { RoleTypes } from 'src/models/roles.enum'
 
+/**
+ * The main app's user service
+ */
 @Injectable()
 export class UserService extends TypeOrmCrudService<UserEntity> {
     public constructor(
