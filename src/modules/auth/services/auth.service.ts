@@ -14,6 +14,9 @@ import { RequestUser } from 'src/utils/type.shared'
 
 import * as DefaultValidationErrorMessage from '../../../models/default-validation-messages'
 
+/**
+ * The main app's auth service
+ */
 @Injectable()
 export class AuthService {
     public constructor(private readonly jwtService: JwtService) {}

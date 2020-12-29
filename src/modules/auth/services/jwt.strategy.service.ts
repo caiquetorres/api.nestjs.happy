@@ -6,6 +6,12 @@ import { RequestUser } from 'src/utils/type.shared'
 
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
+/**
+ * The jwt strategy class
+ *
+ * This class store all the logic needed to validate the token sended in
+ * the headers
+ */
 @Injectable()
 export class JwtStrategyService extends PassportStrategy(Strategy) {
     public constructor(private readonly configService: ConfigService) {

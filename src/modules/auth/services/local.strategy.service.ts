@@ -7,6 +7,11 @@ import { RequestUser } from 'src/utils/type.shared'
 
 import { Strategy } from 'passport-local'
 
+/**
+ * The local strategy class
+ *
+ * This class stores the logic needed to validate the user credentials
+ */
 @Injectable()
 export class LocalStrategyService extends PassportStrategy(Strategy) {
     public constructor(private readonly authService: AuthService) {

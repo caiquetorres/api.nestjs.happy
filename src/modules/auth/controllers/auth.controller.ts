@@ -8,6 +8,9 @@ import { AuthService } from '../services/auth.service'
 
 import { RequestUser } from 'src/utils/type.shared'
 
+/**
+ * The main app's auth controller
+ */
 @Controller('auth')
 export class AuthController {
     public constructor(private readonly authService: AuthService) {}
