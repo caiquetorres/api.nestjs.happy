@@ -67,7 +67,7 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
      * Method that can return only one user entity from the database
      * @param userId stores the user id
      */
-    public async get(userId: number): Promise<UserEntity> {
+    public async listOne(userId: number): Promise<UserEntity> {
         const entity = await UserEntity.findOne({ id: userId })
 
         if (!entity)
