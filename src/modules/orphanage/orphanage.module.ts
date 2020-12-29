@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'
 
-@Module({})
+import { OrphanageService } from './services/orphanage.service'
+
+@Module({
+    providers: [OrphanageService],
+    exports: [OrphanageService]
+})
 export class OrphanageModule {}
