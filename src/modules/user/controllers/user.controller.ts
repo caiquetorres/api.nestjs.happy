@@ -41,17 +41,6 @@ export class UserController {
     }
 
     /**
-     * Method that can return only one user entity from the database
-     * @param userId stores the user id
-     */
-    @UseGuards(JwtAuthGuard)
-    @Get(':id')
-    public async get(@Param('id') userId: number): Promise<UserProxy> {
-        const entity = await this.userService.listOne(userId)
-        return entity.toProxy()
-    }
-
-    /**
      * Method that can return the logged user data
      * @param requestUser stores the user base data
      */
@@ -59,6 +48,17 @@ export class UserController {
     @Get('me')
     public async getMe(@User() requestUser: RequestUser): Promise<UserProxy> {
         const entity = await this.userService.listOne(requestUser.id)
+        return entity.toProxy()
+    }
+
+    /**
+     * Method that can return only one user entity from the database
+     * @param userId stores the user id
+     */
+    @UseGuards(JwtAuthGuard)
+    @Get(':id')
+    public async get(@Param('id') userId: number): Promise<UserProxy> {
+        const entity = await this.userService.listOne(userId)
         return entity.toProxy()
     }
 
