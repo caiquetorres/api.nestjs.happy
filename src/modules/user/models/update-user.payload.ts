@@ -1,3 +1,3 @@
 export class UpdateUserPayload {
-    public phone: string
+    public phone?: string
 }
