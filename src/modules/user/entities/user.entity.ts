@@ -1,7 +1,9 @@
-import { BaseEntity } from 'src/common/base-entity'
 import { Column, Entity } from 'typeorm'
-import { UserProxy } from '../models/user.proxy'
+
+import { BaseEntity } from 'src/common/base-entity'
+
 import { ToProxy } from '../../../common/to-proxy'
+import { UserProxy } from '../models/user.proxy'
 
 @Entity('users')
 export class UserEntity extends BaseEntity implements ToProxy<UserProxy> {
