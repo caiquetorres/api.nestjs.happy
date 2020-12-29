@@ -11,6 +11,7 @@ import {
     UseInterceptors
 } from '@nestjs/common'
 import {
+    Crud,
     CrudRequest,
     CrudRequestInterceptor,
     GetManyDefaultResponse,
@@ -21,6 +22,8 @@ import { Roles } from 'src/decorators/roles/roles.decorator'
 
 import { JwtAuthGuard } from 'src/guards/jwt/jwt.guard'
 import { RolesAuthGuard } from 'src/guards/roles/roles.guard'
+
+import { OrphanageEntity } from '../entities/orphanage.entity'
 
 import { CreateOrphanagePayload } from '../models/create-orphanage.payload'
 import { OrphanageProxy } from '../models/orphanage.proxy'
@@ -35,6 +38,11 @@ import { RoleTypes } from 'src/models/roles.enum'
 /**
  * The main app's orphanage controller
  */
+@Crud({
+    model: {
+        type: OrphanageEntity
+    }
+})
 @Controller('orphanages')
 export class OrphanageController {
     public constructor(private readonly orphanageService: OrphanageService) {}
