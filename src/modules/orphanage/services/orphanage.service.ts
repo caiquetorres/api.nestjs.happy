@@ -73,8 +73,8 @@ export class OrphanageService extends TypeOrmCrudService<OrphanageEntity> {
         orphanageId: number,
         updateOrphanagePayload: UpdateOrphanagePayload
     ): Promise<void> {
-        const existsUser = await OrphanageEntity.exists(orphanageId)
-        if (!existsUser)
+        const existsOrphanage = await OrphanageEntity.exists(orphanageId)
+        if (!existsOrphanage)
             throw new NotFoundException(
                 DefaultValidationMessages.entityNotFound(orphanageId)
             )
@@ -90,8 +90,8 @@ export class OrphanageService extends TypeOrmCrudService<OrphanageEntity> {
      * @param orphanageId stores the orphanage data
      */
     public async delete(orphanageId: number): Promise<void> {
-        const existsUser = await OrphanageEntity.exists(orphanageId)
-        if (!existsUser)
+        const existsOrphanage = await OrphanageEntity.exists(orphanageId)
+        if (!existsOrphanage)
             throw new NotFoundException(
                 DefaultValidationMessages.entityNotFound(orphanageId)
             )
