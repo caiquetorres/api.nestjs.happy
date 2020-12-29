@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, OneToMany } from 'typeorm'
 
 import { BaseEntity } from 'src/common/base-entity'
+import { ImageEntity } from 'src/modules/image/entities/image.entity'
 
 import { OrphanageProxy } from '../models/orphanage.proxy'
 import { ToProxy } from 'src/common/to-proxy'
@@ -58,6 +59,12 @@ export class OrphanageEntity extends BaseEntity
         default: 1
     })
     public pendent: boolean
+
+    @OneToMany(
+        () => ImageEntity,
+        image => image.orphanage
+    )
+    public images: ImageEntity[]
 
     public toProxy(): OrphanageProxy {
         return new OrphanageProxy(this)
