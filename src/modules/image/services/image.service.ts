@@ -8,7 +8,6 @@ import { ImageEntity } from '../entities/image.entity'
 import { OrphanageEntity } from 'src/modules/orphanage/entities/orphanage.entity'
 
 import { CreateImagePayload } from '../models/create-image.payload'
-import { ImageProxy } from '../models/image.proxy'
 
 import * as DefaultValidationMessages from '../../../models/default-validation-messages'
 
@@ -53,7 +52,7 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
      * Method that can return only one image entity from the database
      * @param imageId stores the image id
      */
-    public async listOne(imageId: number): Promise<ImageProxy> {
+    public async listOne(imageId: number): Promise<ImageEntity> {
         const entity = await ImageEntity.findOne({ id: imageId })
 
         if (!entity)
@@ -71,7 +70,7 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
      */
     public async listMany(
         crudRequest: CrudRequest
-    ): Promise<GetManyDefaultResponse<ImageProxy> | ImageProxy[]> {
+    ): Promise<GetManyDefaultResponse<ImageEntity> | ImageEntity[]> {
         return this.getMany(crudRequest)
     }
 
