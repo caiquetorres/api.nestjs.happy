@@ -28,10 +28,10 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
      * @param createImagePayload stores the new image data
      */
     public async create(
+        orphanageId: number,
         createImagePayload: CreateImagePayload
-    ): Promise<ImageEntity | ImageEntity[]> {
-        const { orphanageId, imagesUrl } = createImagePayload
-
+    ): Promise<ImageEntity[]> {
+        const { imagesUrl } = createImagePayload
         const orphanage = await OrphanageEntity.findOne({
             id: orphanageId
         })
@@ -40,12 +40,18 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
                 DefaultValidationMessages.entityNotFound(orphanageId)
             )
 
-        return this.repository.save(
-            imagesUrl.map<Partial<ImageEntity>>(imageUrl => ({
-                imageUrl,
+        const savedEntities: ImageEntity[] = []
+
+        for (let i = 0; i < imagesUrl.length; i++) {
+            const entity = new ImageEntity({
+                imageUrl: imagesUrl[i],
                 orphanage
-            }))
-        )
+            })
+            await entity.save()
+            savedEntities.push(entity)
+        }
+
+        return savedEntities
     }
 
     /**
@@ -69,8 +75,23 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
      * @param crudRequest stores the user request parameters
      */
     public async listMany(
+        orphanageId: number,
         crudRequest: CrudRequest
     ): Promise<GetManyDefaultResponse<ImageEntity> | ImageEntity[]> {
+        const orphanageExists = await OrphanageEntity.exists(orphanageId)
+        if (!orphanageExists)
+            throw new NotFoundException(
+                DefaultValidationMessages.entityNotFound(orphanageId)
+            )
+
+        const originalSearchParams = [...crudRequest.parsed.search.$and]
+        crudRequest.parsed.join.push({
+            field: 'orphanage'
+        })
+        crudRequest.parsed.search = {
+            $and: [{ 'orphanage.id': orphanageId }, ...originalSearchParams]
+        }
+
         return this.getMany(crudRequest)
     }
 
