@@ -5,7 +5,7 @@ export class OrphanageProxy {
     public name: string
     public about: string
     public whatsapp: string
-    public intructions: string
+    public instructions: string
     public openOnWeekends: boolean
     public pendent: boolean
 
@@ -14,7 +14,7 @@ export class OrphanageProxy {
         this.name = entity.name
         this.about = entity.about
         this.whatsapp = entity.whatsapp
-        this.intructions = entity.intructions
+        this.instructions = entity.instructions
         this.openOnWeekends = entity.openOnWeekends
         this.pendent = entity.pendent
     }

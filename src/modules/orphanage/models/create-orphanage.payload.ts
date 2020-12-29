@@ -3,6 +3,6 @@ export class CreateOrphanagePayload {
     public name: string
     public about: string
     public whatsapp: string
-    public intructions: string
+    public instructions: string
     public openOnWeekends: boolean
 }

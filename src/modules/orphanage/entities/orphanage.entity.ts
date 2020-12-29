@@ -44,7 +44,7 @@ export class OrphanageEntity extends BaseEntity
         type: 'text',
         nullable: false
     })
-    public intructions: string
+    public instructions: string
 
     @Column({
         type: 'int',
