@@ -8,7 +8,6 @@ import { JwtService } from '@nestjs/jwt'
 import { UserEntity } from 'src/modules/user/entities/user.entity'
 
 import { LoginPayload } from '../models/login.payload'
-import { TokenProxy } from '../models/token.proxy'
 
 import { comparePassword } from 'src/utils/password'
 import { RequestUser } from 'src/utils/type.shared'
@@ -23,9 +22,8 @@ export class AuthService {
      * Method that can return the token
      * @param requestUser stores the base data
      */
-    public async signIn(requestUser: RequestUser): Promise<TokenProxy> {
-        const token = await this.jwtService.signAsync(requestUser)
-        return new TokenProxy(token)
+    public async signIn(requestUser: RequestUser): Promise<string> {
+        return await this.jwtService.signAsync(requestUser)
     }
 
     /**
