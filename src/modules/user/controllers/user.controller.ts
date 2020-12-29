@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Param,
+    Post,
+    UnsupportedMediaTypeException,
+    UseGuards
+} from '@nestjs/common'
+
+import { User } from 'src/decorators/user/user.decorator'
 
 import { JwtAuthGuard } from 'src/guards/jwt/jwt.guard'
 
@@ -6,6 +15,8 @@ import { CreateUserPayload } from '../models/create-user.payload'
 import { UserProxy } from '../models/user.proxy'
 
 import { UserService } from '../services/user.service'
+
+import { RequestUser } from 'src/utils/type.shared'
 
 /**
  * The main app's user controller
@@ -34,6 +45,17 @@ export class UserController {
     @Get(':id')
     public async get(@Param('id') userId: number): Promise<UserProxy> {
         const entity = await this.userService.get(userId)
+        return entity.toProxy()
+    }
+
+    /**
+     * Method that can return the logged user data
+     * @param requestUser stores the user base data
+     */
+    @UseGuards(JwtAuthGuard)
+    @Get('me')
+    public async getMe(@User() requestUser: RequestUser): Promise<UserProxy> {
+        const entity = await this.userService.get(requestUser.id)
         return entity.toProxy()
     }
 }
