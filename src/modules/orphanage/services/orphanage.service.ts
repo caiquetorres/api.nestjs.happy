@@ -11,6 +11,9 @@ import { UpdateOrphanagePayload } from '../models/update-orphanage.payload'
 
 import * as DefaultValidationMessages from '../../../models/default-validation-messages'
 
+/**
+ * The main app's orphanage service
+ */
 @Injectable()
 export class OrphanageService extends TypeOrmCrudService<OrphanageEntity> {
     public constructor(
