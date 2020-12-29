@@ -54,18 +54,6 @@ export class OrphanageController {
     }
 
     /**
-     * Method that can return only one orphanage entity from the database
-     * @param orphanageId stores the orphanage id
-     */
-    @Get(':id')
-    public async getOne(
-        @Param('id') orphanageId: number
-    ): Promise<OrphanageProxy> {
-        const entity = await this.orphanageService.listOne(orphanageId)
-        return entity.toProxy()
-    }
-
-    /**
      * Method that can return all the orphanages entities from the database
      * based on the crud request parameter data
      * @param crudRequest stores the user request parameters
@@ -103,9 +91,6 @@ export class OrphanageController {
      * database
      * @param crudRequest stores the user request parameters
      */
-    @UseGuards(RolesAuthGuard)
-    @Roles(RoleTypes.ADMIN)
-    @UseGuards(JwtAuthGuard)
     @UseInterceptors(CrudRequestInterceptor)
     @Get('/pendents')
     public async getManyPendents(
@@ -121,6 +106,18 @@ export class OrphanageController {
     }
 
     /**
+     * Method that can return only one orphanage entity from the database
+     * @param orphanageId stores the orphanage id
+     */
+    @Get(':id')
+    public async getOne(
+        @Param('id') orphanageId: number
+    ): Promise<OrphanageProxy> {
+        const entity = await this.orphanageService.listOne(orphanageId)
+        return entity.toProxy()
+    }
+
+    /**
      * Method that can change the "pendent" property of some specific orphanage
      * @param orphanageId stores the orphanage id
      */
@@ -131,7 +128,7 @@ export class OrphanageController {
     public async acceptPendecy(
         @Param('id') orphanageId: number
     ): Promise<void> {
-        await this.orphanageService.update(orphanageId, { pendent: true })
+        await this.orphanageService.update(orphanageId, { pendent: false })
     }
 
     /**
