@@ -1,6 +1,7 @@
 import { OrphanageEntity } from '../entities/orphanage.entity'
 
 export class OrphanageProxy {
+    public id: number
     public local: string
     public name: string
     public about: string
@@ -10,6 +11,7 @@ export class OrphanageProxy {
     public pendent: boolean
 
     public constructor(entity: OrphanageEntity) {
+        this.id = entity.id
         this.local = entity.local
         this.name = entity.name
         this.about = entity.about
