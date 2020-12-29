@@ -1,7 +1,8 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException
+    NotFoundException,
+    UnauthorizedException
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm'
@@ -10,8 +11,11 @@ import { Repository } from 'typeorm'
 import { UserEntity } from '../entities/user.entity'
 
 import { CreateUserPayload } from '../models/create-user.payload'
+import { UpdateUserPayload } from '../models/update-user.payload'
 
 import { encryptPassword } from 'src/utils/password'
+import { RequestUser } from 'src/utils/type.shared'
+import { hasPermission } from 'src/utils/validations'
 
 import * as DefaultValidationMessages from '../../../models/default-validation-messages'
 import { RoleTypes } from 'src/models/roles.enum'
@@ -74,11 +78,51 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
         return entity
     }
 
-    public async update(): Promise<void> {
-        return null
+    /**
+     * Method that can change some entity data based on it payload
+     * @param requestUser stores the user base data
+     * @param userId stores the user id
+     * @param updateUserPayload stores the new user data
+     */
+    public async update(
+        requestUser: RequestUser,
+        userId: number,
+        updateUserPayload: UpdateUserPayload
+    ): Promise<void> {
+        if (!hasPermission(requestUser, userId))
+            throw new UnauthorizedException(
+                DefaultValidationMessages.unauthorized
+            )
+
+        const existsUser = await UserEntity.exists(userId)
+        if (!existsUser)
+            throw new NotFoundException(
+                DefaultValidationMessages.entityNotFound(userId)
+            )
+
+        await UserEntity.update({ id: userId }, updateUserPayload)
     }
 
-    public async delete(): Promise<void> {
-        return null
+    /**
+     * Method that can delete some user from the database
+     * @param requestUser stores the user base data
+     * @param userId stores the user id
+     */
+    public async delete(
+        requestUser: RequestUser,
+        userId: number
+    ): Promise<void> {
+        if (!hasPermission(requestUser, userId))
+            throw new UnauthorizedException(
+                DefaultValidationMessages.unauthorized
+            )
+
+        const existsUser = await UserEntity.exists(userId)
+        if (!existsUser)
+            throw new NotFoundException(
+                DefaultValidationMessages.entityNotFound(userId)
+            )
+
+        await UserEntity.delete({ id: userId })
     }
 }
