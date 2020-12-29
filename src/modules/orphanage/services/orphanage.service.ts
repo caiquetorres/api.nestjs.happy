@@ -54,7 +54,7 @@ export class OrphanageService extends TypeOrmCrudService<OrphanageEntity> {
     }
 
     /**
-     * Method that can retun all the orphanages entities from the database
+     * Method that can return all the orphanages entities from the database
      * based on the crud request parameter data
      * @param crudRequest stores the user request parameters
      */

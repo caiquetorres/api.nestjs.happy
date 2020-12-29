@@ -32,10 +32,17 @@ import { mapCrud } from 'src/utils/crud'
 
 import { RoleTypes } from 'src/models/roles.enum'
 
+/**
+ * The main app's orphanage controller
+ */
 @Controller('orphanages')
 export class OrphanageController {
     public constructor(private readonly orphanageService: OrphanageService) {}
 
+    /**
+     * Method that can create a new orphanage and save it in the database
+     * @param createOrphanagePayload stores the new orphanage data
+     */
     @Post()
     public async create(
         @Body() createOrphanagePayload: CreateOrphanagePayload
@@ -46,14 +53,23 @@ export class OrphanageController {
         return entity.toProxy()
     }
 
+    /**
+     * Method that can return only one orphanage entity from the database
+     * @param orphanageId stores the orphanage id
+     */
     @Get(':id')
-    public async get(
+    public async getOne(
         @Param('id') orphanageId: number
     ): Promise<OrphanageProxy> {
         const entity = await this.orphanageService.listOne(orphanageId)
         return entity.toProxy()
     }
 
+    /**
+     * Method that can return all the orphanages entities from the database
+     * based on the crud request parameter data
+     * @param crudRequest stores the user request parameters
+     */
     @UseInterceptors(CrudRequestInterceptor)
     @Get()
     public async getMany(
@@ -63,6 +79,11 @@ export class OrphanageController {
         return mapCrud(getMany)
     }
 
+    /**
+     * Method that can return all the orphanages that are not pendent from
+     * the database
+     * @param crudRequest stores the user request parameters
+     */
     @UseInterceptors(CrudRequestInterceptor)
     @Get('/not-pendents')
     public async getManyNotPendents(
@@ -77,6 +98,11 @@ export class OrphanageController {
         return mapCrud(getMany)
     }
 
+    /**
+     * Method that can return all the orphanages that are pendent from the
+     * database
+     * @param crudRequest stores the user request parameters
+     */
     @UseGuards(RolesAuthGuard)
     @Roles(RoleTypes.ADMIN)
     @UseGuards(JwtAuthGuard)
@@ -94,6 +120,10 @@ export class OrphanageController {
         return mapCrud(getMany)
     }
 
+    /**
+     * Method that can change the "pendent" property of some specific orphanage
+     * @param orphanageId stores the orphanage id
+     */
     @UseGuards(RolesAuthGuard)
     @Roles(RoleTypes.ADMIN)
     @UseGuards(JwtAuthGuard)
@@ -104,6 +134,11 @@ export class OrphanageController {
         await this.orphanageService.update(orphanageId, { pendent: true })
     }
 
+    /**
+     * Method that can change some entity data based on it payload
+     * @param orphanageId stores the orphanage id
+     * @param updateOrphanagePayload stores the new orphanage data
+     */
     @UseGuards(RolesAuthGuard)
     @Roles(RoleTypes.ADMIN)
     @UseGuards(JwtAuthGuard)
@@ -115,6 +150,10 @@ export class OrphanageController {
         await this.orphanageService.update(orphanageId, updateOrphanagePayload)
     }
 
+    /**
+     * Method that can delete some entity from the database
+     * @param orphanageId stores the orphanage data
+     */
     @UseGuards(RolesAuthGuard)
     @Roles(RoleTypes.ADMIN)
     @UseGuards(JwtAuthGuard)
