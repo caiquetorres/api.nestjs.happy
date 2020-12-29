@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PassportStrategy } from '@nestjs/passport'
+import { AbstractStrategy, PassportStrategy } from '@nestjs/passport'
 
 import { AuthService } from './auth.service'
 
@@ -13,7 +13,8 @@ import { Strategy } from 'passport-local'
  * This class stores the logic needed to validate the user credentials
  */
 @Injectable()
-export class LocalStrategyService extends PassportStrategy(Strategy) {
+export class LocalStrategyService extends PassportStrategy(Strategy)
+    implements AbstractStrategy {
     public constructor(private readonly authService: AuthService) {
         super({
             usernameField: 'email',
