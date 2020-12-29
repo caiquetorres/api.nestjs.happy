@@ -12,6 +12,9 @@ import { ImageProxy } from '../models/image.proxy'
 
 import * as DefaultValidationMessages from '../../../models/default-validation-messages'
 
+/**
+ * The main app's image service
+ */
 @Injectable()
 export class ImageService extends TypeOrmCrudService<ImageEntity> {
     public constructor(
@@ -21,10 +24,14 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
         super(repository)
     }
 
+    /**
+     * Method that can create a new image and save it in the database
+     * @param createImagePayload stores the new image data
+     */
     public async create(
-        saveImagePayload: CreateImagePayload
+        createImagePayload: CreateImagePayload
     ): Promise<ImageEntity | ImageEntity[]> {
-        const { orphanageId, imagesUrl } = saveImagePayload
+        const { orphanageId, imagesUrl } = createImagePayload
 
         const orphanage = await OrphanageEntity.findOne({
             id: orphanageId
@@ -42,6 +49,10 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
         )
     }
 
+    /**
+     * Method that can return only one image entity from the database
+     * @param imageId stores the image id
+     */
     public async listOne(imageId: number): Promise<ImageProxy> {
         const entity = await ImageEntity.findOne({ id: imageId })
 
@@ -53,12 +64,21 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
         return entity
     }
 
+    /**
+     * Method that can return all the image entities from the database
+     * based on the crud request parameter data
+     * @param crudRequest stores the user request parameters
+     */
     public async listMany(
         crudRequest: CrudRequest
     ): Promise<GetManyDefaultResponse<ImageProxy> | ImageProxy[]> {
         return this.getMany(crudRequest)
     }
 
+    /**
+     * Method that can delete some entity from the database
+     * @param imageId stores the image id
+     */
     public async delete(imageId: number): Promise<void> {
         const existsImage = await OrphanageEntity.exists(imageId)
         if (!existsImage)
