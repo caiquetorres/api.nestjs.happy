@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from './functions'
 import { RequestUser } from './type.shared'
-import { RoleTypes } from '../models/enum/roles.enum'
+import { RoleTypes } from '../models/roles.enum'
 
 /**
  * Function that can test if the request user has the type "ADMIM"
