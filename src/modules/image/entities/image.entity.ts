@@ -3,8 +3,11 @@ import { Column, Entity, ManyToOne } from 'typeorm'
 import { BaseEntity } from 'src/common/base-entity'
 import { OrphanageEntity } from 'src/modules/orphanage/entities/orphanage.entity'
 
+import { ImageProxy } from '../models/image.proxy'
+import { ToProxy } from 'src/common/to-proxy'
+
 @Entity('images')
-export class ImageEntity extends BaseEntity {
+export class ImageEntity extends BaseEntity implements ToProxy<ImageProxy> {
     @Column({
         type: 'text',
         nullable: false
@@ -19,4 +22,8 @@ export class ImageEntity extends BaseEntity {
         }
     )
     public orphanage: OrphanageEntity
+
+    public toProxy(): ImageProxy {
+        return new ImageProxy(this)
+    }
 }
