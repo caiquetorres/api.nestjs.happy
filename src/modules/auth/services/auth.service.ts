@@ -43,9 +43,7 @@ export class AuthService {
 
         if (!entity)
             throw new NotFoundException(
-                DefaultValidationErrorMessage.entityNotFoundDefaultMessage(
-                    email
-                )
+                DefaultValidationErrorMessage.entityNotFound(email)
             )
 
         const passwordIsMatch = await comparePassword(password, entity.password)

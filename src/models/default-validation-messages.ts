@@ -9,10 +9,13 @@ export const isEmail = 'It is required to send a valid e-mail.'
 export const isMobilePhone =
     'It is required to send a valid telephone number. Ex: (015) 90000-0000'
 export const isNotEmpty = 'It is not allowed to send a blanck text.'
+
 export const unauthorized = 'You have no permission to access those sources'
 
-export function entityNotFoundDefaultMessage(
-    identifier: string | number
-): string {
+export function entityNotFound(identifier: string | number): string {
     return `The entity identified by ${identifier} was not found`
+}
+
+export function entityConflict(identifier: string | number): string {
+    return `The entity identified by ${identifier} already exists`
 }
