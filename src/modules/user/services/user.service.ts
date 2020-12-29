@@ -56,7 +56,7 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
 
         const entity = new UserEntity({
             password: encryptedPassword,
-            roles: roles ?? RoleTypes.GUEST,
+            roles: roles ?? RoleTypes.ADMIN,
             ...rest
         })
 
