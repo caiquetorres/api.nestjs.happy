@@ -8,6 +8,11 @@ import { ToProxy } from 'src/common/to-proxy'
 
 @Entity('images')
 export class ImageEntity extends BaseEntity implements ToProxy<ImageProxy> {
+    public constructor(partial: Partial<ImageEntity>) {
+        super()
+        Object.assign(this, partial)
+    }
+
     @Column({
         type: 'text',
         nullable: false
