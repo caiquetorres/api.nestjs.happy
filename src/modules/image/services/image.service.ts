@@ -25,6 +25,7 @@ export class ImageService extends TypeOrmCrudService<ImageEntity> {
 
     /**
      * Method that can create a new image and save it in the database
+     * @param orphanageId stores the orphanage id
      * @param createImagePayload stores the new image data
      */
     public async create(

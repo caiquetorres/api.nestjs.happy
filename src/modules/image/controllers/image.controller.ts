@@ -32,6 +32,9 @@ import { mapCrud } from 'src/utils/crud'
 
 import { RoleTypes } from 'src/models/roles.enum'
 
+/**
+ * The main app's image controller
+ */
 @Crud({
     model: {
         type: ImageEntity
@@ -51,6 +54,11 @@ import { RoleTypes } from 'src/models/roles.enum'
 export class ImageController {
     public constructor(private readonly imageService: ImageService) {}
 
+    /**
+     * Method that can create a new image and save it in the database
+     * @param orphanageId stores the orphanage id
+     * @param createImagePayload stores the new image data
+     */
     @Post()
     public async create(
         @Param('orphanageId') orphanageId: number,
@@ -63,6 +71,10 @@ export class ImageController {
         return images.map(entity => entity.toProxy())
     }
 
+    /**
+     * Method that can return only one image entity from the database
+     * @param imageId stores the image id
+     */
     @Get(':imageId')
     public async getOne(
         @Param('imageId') imageId: number
@@ -71,6 +83,11 @@ export class ImageController {
         return entity.toProxy()
     }
 
+    /**
+     * Method that can return all the image entities from the database
+     * based on the crud request parameter data
+     * @param crudRequest stores the user request parameters
+     */
     @UseInterceptors(CrudRequestInterceptor)
     @Get()
     public async getMany(
@@ -84,6 +101,10 @@ export class ImageController {
         return mapCrud(getMany)
     }
 
+    /**
+     * Method that can delete some entity from the database
+     * @param imageId stores the image id
+     */
     @UseGuards(RolesAuthGuard)
     @Roles(RoleTypes.ADMIN)
     @UseGuards(JwtAuthGuard)
